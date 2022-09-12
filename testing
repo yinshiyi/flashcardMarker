@@ -1,1 +1,24 @@
 
+overall idea here is to use file name in a dataframe
+a folder has all the images
+
+create a database where file name is the first column, 
+each entry will have a file name, atributes will have 4 or 5 others.
+
+a test function { # of question, which bias file to use, sequntial mode is false}
+will first create a test log file with time stamp in log folder
+then have time stamp
+
+for loop
+
+random generater, function is look at biase weight >=0 entry
+
+the program will use steve's function to open a image file. then ask for input to be type in the atribuates
+
+then another function to check if the input atributes match with the stored atrubutes.
+https://www.golinuxcloud.com/python-compare-strings-examples/
+
+if the comparison is true, such entry will have bias weight -1
+if the comparison is false, such entry will have bias weight +1 in the [biase file]
+
+
