@@ -1,3 +1,4 @@
+package java;
 import javax.swing.*;
  
 public class Main 
