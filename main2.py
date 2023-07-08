@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 import random
 import os
 import datetime
+import pandas as pd
 
 # Function to check if the user's input matches the metadata
 def check_input():
@@ -50,8 +51,14 @@ def show_next_image():
 def log_result(image, is_correct):
     log_file = "log.txt"  # Path to the log file
     
-    # Create a log entry with the current timestamp and the image filename
-    log_entry = f"{datetime.datetime.now()}: {image} - {'Correct' if is_correct else 'Incorrect'}\n"
+    # Get the metadata associated with the image
+    metadata = image_metadata[image]
+    
+    # Get the user input from the entry widget
+    user_input = entry.get().strip().lower()
+    
+    # Create a log entry with the current timestamp, the image filename, user input, and metadata
+    log_entry = f"{datetime.datetime.now()}: {image} - User Input: {user_input} - Metadata: {metadata} - {'Correct' if is_correct else 'Incorrect'}\n"
     
     # Append the log entry to the log file
     with open(log_file, "a") as file:
@@ -63,16 +70,14 @@ window.title("Image Verification Program")
 window.geometry("400x300")
 
 # Set up the image folder and image list
-image_folder = "C:/Users/12130/Pictures/Screenshots"  # Replace with the actual path to your image folder
+image_folder = "images"  # Replace with the actual path to your image folder
 images = os.listdir(image_folder)
 random.shuffle(images)  # Shuffle the list of images
 
-# Set up the image metadata
-image_metadata = {
-    "image1.jpg": "metadata1",
-    "image2.jpg": "metadata2",
-    # Add more image metadata entries as needed
-}
+# Read the image metadata from a CSV file
+csv_file = "metadata/metadata.csv"  # Path to the CSV file
+df = pd.read_csv(csv_file)
+image_metadata = dict(zip(df['filename'], df['metadata']))
 
 # Create the image label
 image_label = tk.Label(window)
