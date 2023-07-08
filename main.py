@@ -4,6 +4,8 @@ import random
 import os
 import datetime
 import pandas as pd
+import difflib
+import re
 
 # Function to check if the user's input matches the metadata
 def check_input():
@@ -12,19 +14,31 @@ def check_input():
     # Get the metadata associated with the image
     metadata = image_metadata[current_image]
     
-    # Check if the input matches the metadata
-    if user_input == metadata:
+    # Normalize the strings by removing spaces and commas
+    user_input_normalized = re.sub(r"[ ,]", "", user_input)
+    metadata_normalized = re.sub(r"[ ,]", "", metadata)
+    
+    # Calculate the maximum allowed length difference based on a 10% tolerance
+    max_length_difference = len(user_input_normalized) * 0.1
+    
+    # Perform a fuzzy comparison using difflib
+    comparison = difflib.SequenceMatcher(None, user_input_normalized, metadata_normalized)
+    similarity_ratio = comparison.ratio()
+    
+    # Check if the similarity ratio is within the tolerance
+    if similarity_ratio >= (1 - max_length_difference):
         result_label.config(text="Correct")
-        log_result(current_image, True)
+        log_result(current_image, True, similarity_ratio)
     else:
         result_label.config(text="Incorrect")
-        log_result(current_image, False)
+        log_result(current_image, False, similarity_ratio)
 
     # Show the next image or end the program if all images have been shown
     if len(images_shown) == len(images):
         window.quit()
     else:
         show_next_image()
+
 
 # Function to show the next image
 def show_next_image():
@@ -48,7 +62,7 @@ def show_next_image():
     images_shown.append(current_image)
 
 # Function to log the result in a log file
-def log_result(image, is_correct):
+def log_result(image, is_correct, similarity_ratio):
     log_file = "log.txt"  # Path to the log file
     
     # Get the metadata associated with the image
@@ -57,8 +71,8 @@ def log_result(image, is_correct):
     # Get the user input from the entry widget
     user_input = entry.get().strip().lower()
     
-    # Create a log entry with the current timestamp, the image filename, user input, and metadata
-    log_entry = f"{datetime.datetime.now()}: {image} - User Input: {user_input} - Metadata: {metadata} - {'Correct' if is_correct else 'Incorrect'}\n"
+    # Create a log entry with the current timestamp, the image filename, user input, metadata, and similarity ratio
+    log_entry = f"{datetime.datetime.now()}: {image} - User Input: {user_input} - Metadata: {metadata} - {'Correct' if is_correct else 'Incorrect'} - Similarity Ratio: {similarity_ratio}\n"
     
     # Append the log entry to the log file
     with open(log_file, "a") as file:

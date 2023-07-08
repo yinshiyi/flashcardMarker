@@ -7,3 +7,9 @@
 2023-07-07 20:22:10.217339: download2.jpeg - User Input: mom - Metadata: mom - Correct
 2023-07-07 20:22:14.107700: download.jpeg - User Input: father - Metadata: baby - Incorrect
 2023-07-07 20:22:17.101715: download1.jpeg - User Input: father - Metadata: father - Correct
+2023-07-07 20:41:01.942894: download1.jpeg - User Input: futher - Metadata: father - Correct
+2023-07-07 20:41:14.460226: download.jpeg - User Input: baby - Metadata: baby - Correct
+2023-07-07 20:41:22.458790: download2.jpeg - User Input: mum - Metadata: mom - Incorrect
+2023-07-07 20:45:41.822291: download1.jpeg - User Input: futher - Metadata: father - Correct - Similarity Ratio: 0.8333333333333334
+2023-07-07 20:45:46.724707: download.jpeg - User Input: babi - Metadata: baby - Correct - Similarity Ratio: 0.75
+2023-07-07 20:45:50.130302: download2.jpeg - User Input: mum - Metadata: mom - Incorrect - Similarity Ratio: 0.6666666666666666
